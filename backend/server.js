@@ -3,6 +3,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { MongoMemoryServer } = require("mongodb-memory-server");
 const Expense = require("./models/Expense");
 
 const app = express();
@@ -10,10 +11,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/expensetracker")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("Error connecting to MongoDB:", err));
+// Start in-memory MongoDB and connect
+async function startServer() {
+  const mongoServer = await MongoMemoryServer.create();
+  const mongoUri = mongoServer.getUri();
+  await mongoose.connect(mongoUri);
+  console.log("MongoDB connected (in-memory)");
+}
+startServer();
 
 // GET all expenses
 app.get("/expenses", async (req, res) => {
