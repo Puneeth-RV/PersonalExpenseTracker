@@ -9,7 +9,6 @@ node -v >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Node.js is NOT installed!
     echo Please download and install it from: https://nodejs.org
-    echo After installing, run this script again.
     pause
     exit
 ) ELSE (
@@ -27,8 +26,8 @@ IF %ERRORLEVEL% NEQ 0 (
     echo [OK] npm is installed.
 )
 
-:: Check MongoDB
-mongod --version >nul 2>&1
+:: Check MongoDB (using where instead of mongod --version to avoid hanging)
+where mongod >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 (
     echo [ERROR] MongoDB is NOT installed!
     echo Please download and install it from: https://www.mongodb.com/try/download/community
