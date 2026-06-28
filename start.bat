@@ -1,7 +1,8 @@
 @echo off
 echo Starting Expense Tracker...
 
-start "MongoDB" cmd /k "mkdir C:\data\db 2>nul && mongod"
+mkdir data\db 2>nul
+start "MongoDB" cmd /k "mongod --dbpath ./data/db"
 timeout /t 3 /nobreak
 
 start "Backend" cmd /k "cd backend && npm install && node server.js"
